@@ -1,0 +1,40 @@
+{
+  "fruits": [
+    {
+      "id": 0,
+      "name": "apple",
+      "color": "red",
+      "price": 100
+    },
+    {
+      "id": 1,
+      "name": "orange",
+      "color": "orange",
+      "price": 200
+    },
+    {
+      "id": 2,
+      "name": "melon",
+      "color": "yellow",
+      "price": 120
+    },
+    {
+      "id": 3,
+      "name": "blueberry",
+      "color": "blue",
+      "price": 425
+    },
+    {
+      "id": 4,
+      "name": "strawberry",
+      "color": "red",
+      "price": 105
+    },
+    {
+      "id": 5,
+      "name": "watermelon",
+      "color": "green",
+      "price": 265
+    }
+  ]
+}
