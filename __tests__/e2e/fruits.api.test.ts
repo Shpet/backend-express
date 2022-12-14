@@ -1,5 +1,6 @@
 import { app } from '../../src'
 import request from 'supertest'
+import { AddFruitModel } from '../../src/DTO/AddFruitModel'
 
 describe('/fruits', () => {
   beforeAll(async () => {
@@ -16,7 +17,7 @@ describe('/fruits', () => {
   })
 
   it('should returns 201 and new fruit', async () => {
-    const data = {
+    const data: AddFruitModel = {
       name: 'lemon',
       color: 'green',
       price: 12,
