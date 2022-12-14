@@ -1,6 +1,7 @@
 import { app } from '../../src'
 import request from 'supertest'
 import { AddFruitModel } from '../../src/DTO/AddFruitModel'
+import { ViewFruitModel } from '../../src/DTO/ViewFruitModel'
 
 describe('/fruits', () => {
   beforeAll(async () => {
@@ -13,7 +14,10 @@ describe('/fruits', () => {
 
   it('should returns 400', async () => {
     await request(app).post('/fruits').expect(400)
-    await request(app).post('/fruits').send({ name: '' }).expect(400)
+    await request(app)
+      .post('/fruits')
+      .send(<AddFruitModel>{ name: '' })
+      .expect(400)
   })
 
   it('should returns 201 and new fruit', async () => {
@@ -28,7 +32,10 @@ describe('/fruits', () => {
     const createdFruitResponse = await request(app).post('/fruits').send(data)
     const createdFruit = createdFruitResponse.body
 
-    expect(createdFruit).toEqual({ id: expect.any(Number), ...data })
+    expect(createdFruit).toEqual(<ViewFruitModel>{
+      id: expect.any(Number),
+      ...data,
+    })
 
     const fruitsResponse2 = await request(app).get('/fruits')
     const newFruitsLength = fruitsResponse2.body.length
