@@ -2,7 +2,7 @@ import fs from 'fs'
 import express from 'express'
 import db from './db/db.json'
 
-const app = express()
+export const app = express()
 const port = 3003
 
 const jsonBodyMiddleware = express.json()
@@ -37,7 +37,6 @@ app.post('/fruits', (req: any, res: any) => {
 
   const fruits = db.fruits
   const lastFruit = fruits.at(-1)
-  console.log(lastFruit)
 
   const newFruit = {
     id: 0,
@@ -60,8 +59,6 @@ app.post('/fruits', (req: any, res: any) => {
     if (err) {
       throw err
     }
-
-    console.log('Data written to file')
   })
   res.status(201).json(newFruit)
 })
@@ -77,6 +74,52 @@ app.get('/fruits/:id', (req: any, res: any) => {
   }
 })
 
+app.delete('/fruits/:id', (req: any, res: any) => {
+  if (!req.params.id) {
+    res.status(404).json({ message: 'Id is require' })
+    return
+  }
+
+  const fruits = db.fruits
+
+  let idIsNotExist = true
+
+  const newFruits = fruits.filter((el) => {
+    if (el.id === +req.params.id) {
+      idIsNotExist = false
+    }
+
+    return el.id !== +req.params.id
+  })
+
+  if (idIsNotExist) {
+    res.status(404).json({ message: 'Current id is not found' })
+    return
+  }
+
+  db.fruits = newFruits
+
+  fs.writeFile('./src/db/db.json', JSON.stringify(db, null, 2), (err) => {
+    if (err) {
+      res.sendStatus(500)
+      throw err
+    }
+
+    console.log('Data written to file')
+  })
+
+  res.sendStatus(204)
+})
+
 app.listen(port, () => {
   console.log('listening port: ' + port)
+})
+
+/*
+TESTING
+*/
+
+app.delete('/__test__/data', (req: any, res: any) => {
+  db.fruits = []
+  res.status(204).json([...db.fruits])
 })
