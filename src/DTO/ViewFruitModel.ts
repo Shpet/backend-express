@@ -1,4 +1,9 @@
-export type AddFruitModel = {
+export type ViewFruitModel = {
+  /**
+   * id of existing fruit
+   */
+  id: number
+
   /**
    * name of fruit
    */

@@ -4,6 +4,7 @@ import express, { Response } from 'express'
 import db from './db/db.json'
 import { AddFruitModel } from './DTO/AddFruitModel'
 import { InfoMessageModel } from './DTO/InfoMessageModel'
+import { ViewFruitModel } from './DTO/ViewFruitModel'
 
 export const app = express()
 const port = 3003
@@ -26,7 +27,7 @@ app.get(
   '/fruits',
   (
     req: RequestWithQuery<{ title: string }>,
-    res: Response<AddFruitModel[]>
+    res: Response<ViewFruitModel[]>
   ) => {
     const fruits = db.fruits
     let foundedFruits = fruits
@@ -49,7 +50,7 @@ app.post(
       return
     }
 
-    const fruits = db.fruits as AddFruitModel[]
+    const fruits = db.fruits as ViewFruitModel[]
     const lastFruit = fruits.at(-1)
 
     const newFruit = {
@@ -85,7 +86,7 @@ app.get(
   '/fruits/:id',
   (
     req: RequestWithParams<{ id: string }>,
-    res: Response<AddFruitModel | 404>
+    res: Response<ViewFruitModel | 404>
   ) => {
     const fruits = db.fruits
 
